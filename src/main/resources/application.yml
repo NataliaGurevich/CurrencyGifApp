@@ -1,4 +1,4 @@
-#server.port: ${PORT:8080}
+server.port: ${PORT:8080}
 
 app.param.base.currency: ${BASE_CURRENCY:USD}
 app.param.local.currency: RUB
@@ -15,7 +15,7 @@ feign.client.config.default.readTimeout: 5000
 feign.client.config.default.loggerLevel: basic
 
 org.openexchangerates.app_id: ${EXCHANGE_API_ID}
-org.openexchengerates.url: ${EXCHANGE_URL}
+org.openexchengerates.url: ${EXCHANGE_URL:https://openexchangerates.org/api}
 
 com.giphy.developers.app_key: ${GIPHY_API_KEY}
-com.giphy.developers.url: ${GIPHY_URL}
+com.giphy.developers.url: ${GIPHY_URL:https://api.giphy.com/v1/gifs}

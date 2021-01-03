@@ -65,65 +65,54 @@ public class RateService {
 
     public String isCurrencyHigher(String currency) {
 
-        double rateRubToday;
-        double rateRubYesterday;
-
-        double rateCurrencyToday;
-        double rateCurrencyYesterday;
-
-        boolean isHigher = false;
-
         try {
-            rateRubToday = getRatePerDate(RUB, dateService.today(), BASE);
-            rateRubYesterday = getRatePerDate(RUB, dateService.yesterday(), BASE);
-
-            rateCurrencyToday = getRatePerDate(currency, dateService.today(), BASE);
-            rateCurrencyYesterday = getRatePerDate(currency, dateService.yesterday(), BASE);
-
-            BigDecimal currencyToRubToday;
-            BigDecimal currencyToRubYesterday;
-
-            currencyToRubToday = new BigDecimal(rateCurrencyToday / rateRubToday);
-            currencyToRubYesterday = new BigDecimal(rateCurrencyYesterday / rateRubYesterday);
-
-            LOGGER.info("{} TO  RUB TODAY {}", currency.toUpperCase(), currencyToRubToday);
-            LOGGER.info("{} TO  RUB YESTERDAY {}", currency.toUpperCase(), currencyToRubYesterday);
-
-            if (currencyToRubToday.compareTo(currencyToRubYesterday) > 0) {
-                isHigher = true;
-            }
+            String gifSearch = isHigher(currency) ? RICH : BROKE;
+            return getGifUrl(gifSearch);
         } catch (Exception e) {
-            LOGGER.error("ERROR BY RATE {}", e.getMessage());
-            return ERROR_URL;
-        }
-
-        LOGGER.info("HIGHER => {}", isHigher);
-
-        String gifSearch = isHigher ? RICH : BROKE;
-
-        try {
-            return getGifUrl(GIPHY_API_ID, gifSearch);
-        } catch (Exception e) {
-            LOGGER.error("ERROR BY GIF  {}", e.getMessage());
+            LOGGER.error(e.getMessage());
             return ERROR_URL;
         }
     }
 
-    private double getRatePerDate(String currency, String date, String base) throws Exception {
+    private boolean isHigher(String currency) throws Exception {
+
+        double rateRubToday = getRatePerDate(RUB, dateService.today());
+        double rateRubYesterday = getRatePerDate(RUB, dateService.yesterday());
+
+        double rateCurrencyToday = getRatePerDate(currency, dateService.today());
+        double rateCurrencyYesterday = getRatePerDate(currency, dateService.yesterday());
+
+        if (rateRubToday == 0 || rateRubYesterday == 0) {
+            throw new Exception("ERROR BY RATE");
+        }
+
+        BigDecimal currencyToRubToday = new BigDecimal(rateCurrencyToday / rateRubToday);
+        BigDecimal currencyToRubYesterday = new BigDecimal(rateCurrencyYesterday / rateRubYesterday);
+
+        boolean isHigher = currencyToRubToday.compareTo(currencyToRubYesterday) > 0;
+
+        LOGGER.info("HIGHER => {}", isHigher);
+
+        return isHigher;
+    }
+
+    private double getRatePerDate(String currency, String date) throws Exception {
+
         RatesResponse ratesResponse = exchangeClient.getRatesPerDate(date,
-                EXCHANGE_APP_ID, base);
+                EXCHANGE_APP_ID, BASE);
 
         String methodName = "get" + currency.toLowerCase();
 
         Rates rates = ratesResponse.getRates();
         double rateValue = getValue(rates, methodName);
 
-        LOGGER.info("RATE {} TO BASE {} -> {}", currency, base, rateValue);
+        LOGGER.info("RATE {} TO BASE {} -> {}", currency.toUpperCase(), BASE, rateValue);
 
         return rateValue;
     }
 
     private double getValue(Rates rates, String methodName) throws Exception {
+
         double rateValue = Double.MIN_VALUE;
 
         Class classRates = rates.getClass();
@@ -140,8 +129,9 @@ public class RateService {
         return rateValue;
     }
 
-    private String getGifUrl(String gif_app_id, String searchKey) throws Exception {
-        GiphyResponse giphyResponse = giphyClient.getGiphys(gif_app_id, searchKey);
+    private String getGifUrl(String searchKey) throws Exception {
+
+        GiphyResponse giphyResponse = giphyClient.getGiphys(GIPHY_API_ID, searchKey);
 
         List<String> gifUrl = new ArrayList<>();
 

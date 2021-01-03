@@ -10,6 +10,7 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
@@ -40,6 +41,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.0.0'
 
+	testCompile 'junit:junit:4.12'
+	compile 'junit:junit:4.12'
 }
 
 configurations {
