@@ -2,6 +2,7 @@ package test.alfa.currencyGifApp.services;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -23,51 +24,31 @@ import test.alfa.currencyGifApp.dto.rates.RatesResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RateServiceTest.class)
 public class RateServiceTest {
 
-    private static List<Datum> datums;
     private static String currency;
     private static String dateToday;
     private static String dateYesterday;
-    private static Rates ratesToday;
-    private static Rates ratesYesterday;
     private static GiphyResponse giphyResponse;
     private static RatesResponse ratesResponseToday;
     private static RatesResponse ratesResponseYesterday;
 
-    private static String searchKeyRich;
-    private static String searchKeyBroke;
-
-    @Value("${org.openexchangerates.app_id}")
-    private String EXCHANGE_APP_ID;
-
-    @Value("${org.openexchengerates.url}")
-    private String EXCHANGE_URL;
-
-    @Value("${app.param.url.error}")
     private String ERROR_URL;
 
-    @Value("${com.giphy.developers.app_key}")
-    private String GIPHY_API_ID;
+    private static String BASE;
 
-    @Value("${app.param.base.currency}")
-    private String BASE;
+    private static String RUB;
 
-    @Value("${app.param.local.currency}")
-    private String RUB;
+    private static String RICH;
 
-    @Value("${app.param.search.rich}")
-    private String RICH;
+    private static String BROKE;
 
-    @Value("${app.param.search.broke}")
-    private String BROKE;
-
-    @Value("${com.giphy.developers.url}")
-    private String GIPHY_URL;
+    @Autowired
+    private RateService rateService;
 
     @MockBean
     private GiphyClient giphyClient;
@@ -78,18 +59,18 @@ public class RateServiceTest {
     @MockBean
     private DateService dateService;
 
-    @Autowired
-    private RateService rateService;
+    @BeforeAll
+    public static void init() throws Exception {
 
-    @Before
-    public static void init(){
-
-        currency = "usd";
-        searchKeyRich = "rich";
-        searchKeyRich = "broke";
+        currency = "eur";
 
         dateToday = "2021-01-03";
         dateYesterday = "2021-01-02";
+
+        BASE = "USD";
+        RUB = "RUB";
+        RICH = "rich";
+        BROKE = "broke";
 
         Original original1 = new Original();
         original1.setUrl("gif Url1");
@@ -109,18 +90,19 @@ public class RateServiceTest {
         Datum datum2 = new Datum();
         datum2.setImages(images2);
 
-        datums = new ArrayList<>();
-        datums.add(datum1);
+        List<Datum> datums = new ArrayList<>();
+//        datums.add(datum1);
         datums.add(datum2);
 
+        giphyResponse = new GiphyResponse();
         giphyResponse.setData(datums);
 
-        ratesToday = new Rates();
+        Rates ratesToday = new Rates();
         ratesToday.setRUB(75.0);
         ratesToday.setEUR(0.8);
         ratesToday.setUSD(1.0);
 
-        ratesYesterday = new Rates();
+        Rates ratesYesterday = new Rates();
         ratesYesterday.setRUB(74.0);
         ratesYesterday.setEUR(0.76);
         ratesYesterday.setUSD(1.0);
@@ -138,17 +120,20 @@ public class RateServiceTest {
         Mockito.when(dateService.today()).thenReturn(dateToday);
         Mockito.when(dateService.yesterday()).thenReturn(dateYesterday);
 
-        Mockito.when(giphyClient.getGiphys(GIPHY_API_ID, RICH))
+        Mockito.when(giphyClient.getGiphys(any(), eq(RICH)))
                 .thenReturn(giphyResponse);
 
-        Mockito.when(giphyClient.getGiphys(GIPHY_API_ID, BROKE))
+        Mockito.when(giphyClient.getGiphys(any(), eq(BROKE)))
                 .thenReturn(giphyResponse);
 
-        Mockito.when(exchangeClient.getRatesPerDate(dateToday, EXCHANGE_APP_ID, BASE))
+        Mockito.when(exchangeClient.getRatesPerDate(eq(dateToday), any(), eq(BASE)))
                 .thenReturn(ratesResponseToday);
+
+        Mockito.when(exchangeClient.getRatesPerDate(eq(dateYesterday), any(), eq(BASE)))
+                .thenReturn(ratesResponseYesterday);
 
         String url = rateService.isCurrencyHigher(currency);
 
-        Assert.assertEquals(url, "gif Url1");
+        Assert.assertEquals(url, "gif Url2");
     }
 }
