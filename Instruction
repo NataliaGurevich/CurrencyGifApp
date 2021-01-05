@@ -1,0 +1,106 @@
+Инструкция по запуску проекта из IntelliJ IDEA
+
+1. в терминале набрать команду (склонировать удаленный репозиторий с проектом):
+
+$ git clone https://github.com/NataliaGurevich/CurrencyGifApp
+
+2. открыть проект в IntelliJ IDEA
+
+3. в терминале набрать команду:
+
+./gradlew bootRun --args="--org.openexchangerates.app_id=??? --org.openexchengerates.url=??? --com.giphy.developers.app_key=??? --com.giphy.developers.url=??? --app.param.base.currency=???"
+
+где всесто '???' следует указать Ваши значения:
+
+--org.openexchangerates.app_id=??? - ключ REST API для доступа к openexchangerates.org
+--org.openexchengerates.url=??? - ссылка на сайт курсов валют // openexchangerates.org/api
+--com.giphy.developers.app_key=??? - ключ REST API для доступа к api.giphy.com
+--com.giphy.developers.url=??? - ссылка на сайт гифок // api.giphy.com/v1/gifs
+--app.param.base.currency=??? - код базовой валюты // usd
+
+4. перейти в браузере на http://localhost:8080/bob (вместо 'bob' можно указать любой другой код валюты)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Instructions for starting a project from IntelliJ IDEA
+
+1.in terminal clone a remote repository with a project:
+
+$ git clone https://github.com/NataliaGurevich/CurrencyGifApp
+
+2.open the project in IntelliJ IDEA
+
+3.in the terminal, type the command:
+
+./gradlew bootRun --args = "- org.openexchangerates.app_id = ??? --org.openexchengerates.url = ??? --com.giphy.developers.app_key = ??? --com.giphy. developers.url = ??? --app.param.base.currency = ??? "
+
+where is '???' you should put your values:
+
+--org.openexchangerates.app_id = ??? - REST API key to access openexchangerates.org
+--org.openexchengerates.url = ??? - link to the site of exchange rates // openexchangerates.org/api
+--com.giphy.developers.app_key = ??? - REST API key to access api.giphy.com
+--com.giphy.developers.url = ??? - link to the gif site // api.giphy.com/v1/gifs
+--app.param.base.currency = ??? - base currency code // usd
+
+4. go in the browser to http: // localhost: 8080 / bob (instead of 'bob' you can put any other currency code)
+
+==================================================================================================================================================================================
+
+DOCKER
+
+1. в терминале набрать команду (для скачивания image из dockerhub):
+
+docker pull nataliagurevich/currency-gif-app
+
+2. для запуска image в терминале набрать команду: 
+
+docker run -d -t -i -p 8080:8080 nataliagurevich/currency-gif-app --org.openexchangerates.app_id=??? --org.openexchengerates.url=??? --com.giphy.developers.app_key=??? --com.giphy.developers.url=??? --app.param.base.currency=???
+
+где всесто '???' следует указать Ваши значения:
+
+--org.openexchangerates.app_id=??? - ключ REST API для доступа к openexchangerates.org
+--org.openexchengerates.url=??? - ссылка на сайт курсов валют // openexchangerates.org/api
+--com.giphy.developers.app_key=??? - ключ REST API для доступа к api.giphy.com
+--com.giphy.developers.url=??? - ссылка на сайт гифок // api.giphy.com/v1/gifs
+--app.param.base.currency=??? - код базовой валюты // usd
+
+3. перейти в браузере на http://localhost:8080/bob (вместо 'bob' можно указать любой другой код валюты)
+
+4. для остановки контейнера в терминале набрать:
+
+doker ps (скопировать containerID)
+
+5. остановить контейнер:
+
+docker stop containerID
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DOCKER ENGL
+
+1. in terminal type in the command line (to download the image from dockerhub):
+
+docker pull nataliagurevich/currency-gif-app
+
+2. to run the image type in te terminal:
+
+docker run -d -t -i -p 8080:8080 nataliagurevich/currency-gif-app --org.openexchangerates.app_id=??? --org.openexchengerates.url=??? --com.giphy.developers.app_key=??? --com.giphy.developers.url=??? --app.param.base.currency=???
+
+where is '???' you should put your values:
+
+--org.openexchangerates.app_id = ??? - REST API key to access openexchangerates.org
+--org.openexchengerates.url = ??? - link to the site of exchange rates // openexchangerates.org/api
+--com.giphy.developers.app_key = ??? - REST API key to access api.giphy.com
+--com.giphy.developers.url = ??? - link to the gif site // api.giphy.com/v1/gifs
+--app.param.base.currency = ??? - base currency code // usd
+
+3. go in the browser to http: // localhost: 8080 / bob (instead of 'bob' you can put any other currency code)
+
+4. to stop the container type in the terminal:
+
+doker ps (copy containerID)
+
+5. to stop the container:
+
+docker stop containerID
