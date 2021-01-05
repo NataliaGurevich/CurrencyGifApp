@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"test.alfa.currencyGifApp"})
 public class CurrencyGifAppApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CurrencyGifAppApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(CurrencyGifAppApplication.class, args);
+    }
 }

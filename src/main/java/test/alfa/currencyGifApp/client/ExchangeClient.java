@@ -9,8 +9,8 @@ import test.alfa.currencyGifApp.dto.rates.RatesResponse;
 public interface ExchangeClient {
 
     @GetMapping("/historical/{date}.json?app_id={appId}&base={base}")
-    RatesResponse getRatesPerDate(@RequestParam("date") String yesterday,
-                                  @RequestParam("app_id") String appId,
+    RatesResponse getRatesPerDate(@RequestParam("date") String date,
+                                  @RequestParam("app_id") String app_id,
                                   @RequestParam("base") String base) throws Exception;
 
 }

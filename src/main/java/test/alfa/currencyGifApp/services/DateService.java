@@ -4,39 +4,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class DateService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DateService.class);
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public String today() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate date = LocalDate.now();
 
-        Calendar gc = new GregorianCalendar();
-        Date today = gc.getTime();
+        LOGGER.info("TODAY: {}", date.format(formatter));
 
-        LOGGER.info("TODAY: {}", sdf.format(today));
-
-        return sdf.format(today);
+        return date.format(formatter);
     }
 
     public String yesterday() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate date = LocalDate.now();
+        date = date.minusDays(1);
 
-        Calendar gc = new GregorianCalendar();
-        gc.add(Calendar.DATE, -1);
+        LOGGER.info("YESTERDAY: {}", date.format(formatter));
 
-        Date yesterday = gc.getTime();
-
-        LOGGER.info("TOMORROW: {}", sdf.format(yesterday));
-
-        return sdf.format(yesterday);
+        return date.format(formatter);
     }
 }

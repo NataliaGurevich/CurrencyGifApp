@@ -1,6 +1,6 @@
 server.port: ${PORT:8080}
 
-app.param.base.currency: ${BASE_CURRENCY:USD}
+app.param.base.currency: ${BASE_CURRENCY}
 app.param.local.currency: RUB
 
 app.param.search.rich: rich

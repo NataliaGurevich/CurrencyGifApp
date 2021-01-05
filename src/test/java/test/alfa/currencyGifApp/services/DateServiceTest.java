@@ -17,12 +17,12 @@ public class DateServiceTest {
     @Test
     public void testToToday() {
         //expected date today in format yyyy-MM-dd
-        assertEquals("2021-01-03", dateService.today());
+        assertEquals("2021-01-05", dateService.today());
     }
 
     @Test
     public void testToYesterday() {
         //expected date yesterday in format yyyy-MM-dd
-        assertEquals("2021-01-02", dateService.yesterday());
+        assertEquals("2021-01-04", dateService.yesterday());
     }
 }

@@ -21,8 +21,7 @@ import test.alfa.currencyGifApp.dto.rates.RatesResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RateServiceTest.class)
@@ -151,7 +150,6 @@ public class RateServiceTest {
 
         ratesResponseYesterdayError = new RatesResponse();
         ratesResponseYesterdayError.setRates(ratesYesterdayError);
-
     }
 
     @Test
@@ -166,10 +164,10 @@ public class RateServiceTest {
         Mockito.when(giphyClient.getGiphys(any(), eq(BROKE)))
                 .thenReturn(giphyResponse);
 
-        Mockito.when(exchangeClient.getRatesPerDate(eq(dateToday), any(), eq(BASE)))
+        Mockito.when(exchangeClient.getRatesPerDate(eq(dateToday), anyString(), anyString()))
                 .thenReturn(ratesResponseToday);
 
-        Mockito.when(exchangeClient.getRatesPerDate(eq(dateYesterday), any(), eq(BASE)))
+        Mockito.when(exchangeClient.getRatesPerDate(eq(dateYesterday), anyString(), anyString()))
                 .thenReturn(ratesResponseYesterday);
 
         String url = rateService.isCurrencyHigher(currency);
@@ -198,14 +196,14 @@ public class RateServiceTest {
         }
 
         try {
-            Mockito.when(exchangeClient.getRatesPerDate(eq(dateToday), any(), eq(BASE)))
+            Mockito.when(exchangeClient.getRatesPerDate(eq(dateToday), any(), anyString()))
                     .thenReturn(ratesResponseTodayError);
         } catch (Exception e) {
             Assert.assertEquals("ERROR BY RATE", e.getMessage());
         }
 
         try {
-            Mockito.when(exchangeClient.getRatesPerDate(eq(dateYesterday), any(), eq(BASE)))
+            Mockito.when(exchangeClient.getRatesPerDate(eq(dateYesterday), any(), anyString()))
                     .thenReturn(ratesResponseYesterdayError);
         } catch (Exception e) {
             Assert.assertEquals("ERROR BY RATE", e.getMessage());

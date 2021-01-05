@@ -4,6 +4,8 @@ plugins {
 	id 'java'
 }
 
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 group = 'test.alfa'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -45,6 +47,10 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 	compile 'junit:junit:4.12'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
+	compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.4.1'
+
 }
 
 configurations {

@@ -26,7 +26,7 @@ public class RateService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RateService.class);
 
     @Value("${org.openexchangerates.app_id}")
-    private String EXCHANGE_APP_ID;
+    private String EXCHANGE_API_ID;
 
     @Value("${org.openexchengerates.url}")
     private String EXCHANGE_URL;
@@ -82,12 +82,15 @@ public class RateService {
         double rateCurrencyToday = getRatePerDate(currency, dateService.today());
         double rateCurrencyYesterday = getRatePerDate(currency, dateService.yesterday());
 
-        if (rateRubToday == 0 || rateRubYesterday == 0) {
+        BigDecimal currencyToRubToday;
+        BigDecimal currencyToRubYesterday;
+
+        try {
+            currencyToRubToday = new BigDecimal(rateRubToday / rateCurrencyToday);
+            currencyToRubYesterday = new BigDecimal(rateRubYesterday / rateCurrencyYesterday);
+        } catch (Exception e) {
             throw new Exception("ERROR BY RATE");
         }
-
-        BigDecimal currencyToRubToday = new BigDecimal(rateCurrencyToday / rateRubToday);
-        BigDecimal currencyToRubYesterday = new BigDecimal(rateCurrencyYesterday / rateRubYesterday);
 
         boolean isHigher = currencyToRubToday.compareTo(currencyToRubYesterday) > 0;
 
@@ -98,15 +101,19 @@ public class RateService {
 
     private double getRatePerDate(String currency, String date) throws Exception {
 
-        RatesResponse ratesResponse = exchangeClient.getRatesPerDate(date,
-                EXCHANGE_APP_ID, BASE);
-
+        RatesResponse ratesResponse = null;
+        try {
+            ratesResponse = exchangeClient.getRatesPerDate(date,
+                    EXCHANGE_API_ID, BASE.toLowerCase());
+        } catch (Exception e) {
+            System.out.println("exception " + e.getMessage());
+        }
         String methodName = "get" + currency.toLowerCase();
 
         Rates rates = ratesResponse.getRates();
         double rateValue = getValue(rates, methodName);
 
-        LOGGER.info("RATE {} TO BASE {} -> {}", currency.toUpperCase(), BASE, rateValue);
+        LOGGER.info("RATE {} TO BASE {} -> {}", currency.toUpperCase(), BASE.toUpperCase(), rateValue);
 
         return rateValue;
     }
