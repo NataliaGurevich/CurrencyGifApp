@@ -1,0 +1,38 @@
+Инструкция по запуску проекта из IntelliJ IDEA
+
+1. склонировать удаленный репозиторий с проектом:
+$ git clone https://github.com/NataliaGurevich/CurrencyGifApp
+
+2. открыть проект в IntelliJ IDEA
+
+3. в терминале набрать команду:
+./gradlew bootRun --args="--org.openexchangerates.app_id=??? --org.openexchengerates.url=??? --com.giphy.developers.app_key=??? --com.giphy.developers.url=??? --app.param.base.currency=???"
+
+где всесто '???' следует указать Ваши значения:
+
+--org.openexchangerates.app_id=??? - ключ REST API для доступа к openexchangerates.org
+--org.openexchengerates.url=??? - ссылка на сайт курсов валют // openexchangerates.org/api
+--com.giphy.developers.app_key=??? - ключ REST API для доступа к api.giphy.com
+--com.giphy.developers.url=??? - ссылка на сайт гифок // api.giphy.com/v1/gifs
+--app.param.base.currency=??? - код базовой валюты // usd
+
+==================================================================================================================================================================================
+
+
+Instructions for starting a project from IntelliJ IDEA
+
+1.clone a remote repository with a project:
+$ git clone https://github.com/NataliaGurevich/CurrencyGifApp
+
+2.open the project in IntelliJ IDEA
+
+3.in the terminal, type the command:
+./gradlew bootRun --args = "- org.openexchangerates.app_id = ??? --org.openexchengerates.url = ??? --com.giphy.developers.app_key = ??? --com.giphy. developers.url = ??? --app.param.base.currency = ??? "
+
+where is '???' you should put your values:
+
+--org.openexchangerates.app_id = ??? - REST API key to access openexchangerates.org
+--org.openexchengerates.url = ??? - link to the site of exchange rates // openexchangerates.org/api
+--com.giphy.developers.app_key = ??? - REST API key to access api.giphy.com
+--com.giphy.developers.url = ??? - link to the gif site // api.giphy.com/v1/gifs
+--app.param.base.currency = ??? - base currency code // usd
